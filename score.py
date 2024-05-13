@@ -5,8 +5,8 @@ LESS_THAN = 3
 
 def score(guess: str, secret: str) -> list[int]:
     result = no_similar_letters()
-    guess_positions = positions_of_letter_from(guess)
-    secret_positions = positions_of_letter_from(secret)
+    guess_positions = letter_positions_of(guess)
+    secret_positions = letter_positions_of(secret)
     for c in guess_positions:
         if c in secret_positions:
             result = set_results_for_one_letter(guess_positions[c], secret_positions[c], result)
@@ -17,7 +17,7 @@ def no_similar_letters():
     return [LESS_THAN, LESS_THAN, LESS_THAN, LESS_THAN, LESS_THAN]
 
 
-def positions_of_letter_from(word: str) -> dict:
+def letter_positions_of(word: str) -> dict:
     result = {}
     for i, c in enumerate(word):
         # AttributeError: 'NoneType' object has no attribute 'append'  result[c] = (result.get(c, list())).append(i)
@@ -47,7 +47,7 @@ def set_results_for_one_letter(guess: list[int], secret: list[int], result: list
 def test__aabbb__returns_a_0_1_b_2_3_4():
     word = 'aabbb'
     expect = {'a': [0, 1], 'b': [2, 3, 4]}
-    result = positions_of_letter_from(word)
+    result = letter_positions_of(word)
     assert result == expect
 
 
