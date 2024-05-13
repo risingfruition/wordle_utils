@@ -7,8 +7,6 @@ def score(guess: str, secret: str) -> list[int]:
     result = no_similar_letters()
     guess_positions = positions_of_letter_from(guess)
     secret_positions = positions_of_letter_from(secret)
-    print(guess_positions)
-    print(secret_positions)
     for c in guess_positions:
         if c in secret_positions:
             result = set_results_for_one_letter(guess_positions[c], secret_positions[c], result)
