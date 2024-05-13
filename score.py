@@ -1,7 +1,6 @@
 RIGHT_POS = 1
 WRONG_POS = 2
 LESS_THAN = 3
-INVALID = 99
 
 
 def score(guess: str, secret: str) -> list[int]:
