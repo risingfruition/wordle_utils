@@ -1,4 +1,4 @@
-from score import RIGHT_POS, WRONG_POS, LESS_THAN
+from score import RIGHT_POS, WRONG_POS, FEWER_THAN
 from score import score, letter_positions_of, no_similar_letters, set_results_for_one_letter
 
 
@@ -31,16 +31,16 @@ class TestSetResultsForOneLetter:
 
 
 class TestScore:
-    def test__more_of_a_letter_in_guess__extra_letters_get_less_than(self):
+    def test__more_of_a_letter_in_guess__extra_letters_get_fewer_than(self):
         guess_ = 'mommy'  # one more 'm' in guess than in secret.
         secret = '-m--m'  # no RIGHT_POS 'm's in secret.
         wrong_pos_1_position = 0
         wrong_pos_2_position = 2
-        less_than_position = 3
+        fewer_than_position = 3
         expect = no_similar_letters()
         expect[wrong_pos_1_position] = WRONG_POS
         expect[wrong_pos_2_position] = WRONG_POS
-        expect[less_than_position] = LESS_THAN
+        expect[fewer_than_position] = FEWER_THAN
         result = score(guess_, secret)
         assert result == expect
 
@@ -51,9 +51,9 @@ class TestScore:
         result = score(guess, secret)
         assert result == expect
 
-    def test__no_common_letters__returns_less_than(self):
+    def test__no_common_letters__returns_FEWER_THAN(self):
         guess = 'abcde'
         secret = 'lmnop'
-        expect = [LESS_THAN, LESS_THAN, LESS_THAN, LESS_THAN, LESS_THAN]
+        expect = [FEWER_THAN, FEWER_THAN, FEWER_THAN, FEWER_THAN, FEWER_THAN]
         result = score(guess, secret)
         assert result == expect

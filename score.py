@@ -1,6 +1,7 @@
+# Data is ordered by the value of these constants. Do not change their values.
 RIGHT_POS = 1
-WRONG_POS = 2
-LESS_THAN = 3
+WRONG_POS = RIGHT_POS + 1
+FEWER_THAN = WRONG_POS + 1
 
 
 def score(guess: str, secret: str) -> list[int]:
@@ -14,7 +15,22 @@ def score(guess: str, secret: str) -> list[int]:
 
 
 def no_similar_letters():
-    return [LESS_THAN, LESS_THAN, LESS_THAN, LESS_THAN, LESS_THAN]
+    return [FEWER_THAN, FEWER_THAN, FEWER_THAN, FEWER_THAN, FEWER_THAN]
+
+
+def specify_score(s: str) -> list[int]:
+    result = no_similar_letters()
+
+    if len(s) != len(result):
+        raise ValueError(f'Specify_score param must be length {len(result)}, not {len(s)}.')
+
+    for i, c in enumerate(s):
+        if c == 'R':
+            result[i] = RIGHT_POS
+        if c == 'W':
+            result[i] = WRONG_POS
+        #  'F' or any other char means FEWER_THAN
+    return result
 
 
 def letter_positions_of(word: str) -> dict:
