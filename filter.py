@@ -19,31 +19,28 @@ def filter_words(words: list[str], guess: str, score: list[int]) -> list[str]:
 
 def filters_for_letter(char: str, score_data: list) -> list:
     result = []
-    exactly = 0
     at_least = 0
+    exactly = 0
     for i, score_pos in enumerate(score_data):
         if score_pos[0] == RIGHT_POS:
             result.append(partial(has_letter_at, char, score_pos[1]))
-            exactly += 1
+            at_least += 1
             continue
         if score_pos[0] == WRONG_POS:
             result.append(partial(has_letter_not_at, char, score_pos[1]))
-            exactly += 1
+            at_least += 1
             continue
         if score_pos[0] == FEWER_THAN:
             if i == 0:
                 result.append(partial(has_no_letter, char))
-                at_least = exactly
                 exactly = 0
             else:
-                # 'exactly' contains the count of current letter
-                # in the secret word. Lines after the 'for' will
-                # add a filter for exactly that many letters.
-                pass
+                exactly = at_least
+            at_least = 0
             continue
     if exactly > 0:
         result.append(partial(has_exactly_n, char, exactly))
-    else:
+    if at_least > 0:
         result.append(partial(has_at_least_n, char, at_least))
     return result
 
