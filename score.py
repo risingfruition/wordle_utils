@@ -25,9 +25,9 @@ def specify_score(s: str) -> list[int]:
         raise ValueError(f'Specify_score param must be length {len(result)}, not {len(s)}.')
 
     for i, c in enumerate(s):
-        if c == 'R':
+        if c == 'R' or c == 'r':
             result[i] = RIGHT_POS
-        if c == 'W':
+        if c == 'W' or c == 'w':
             result[i] = WRONG_POS
         #  'F' or any other char means FEWER_THAN
     return result
