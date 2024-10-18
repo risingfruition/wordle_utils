@@ -24,8 +24,8 @@ def main():
     for count in range(6):
         guess = input("Input guess : ")
         result = input("Input result: ")
-        helper = GuessResults(guess, result, words)
-        words = helper.words
+        guess_results = GuessResults(guess, result, words)
+        words = guess_results.words
         for i, w in enumerate(words):
             print(i + 1, w)
 
