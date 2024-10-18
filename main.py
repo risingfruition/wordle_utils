@@ -5,8 +5,9 @@ CMD_GUESS = 'g'
 CMD_HELP = 'h'
 CMD_LIST = 'l'
 CMD_QUIT = 'q'
+CMD_UNDO_GUESS = 'u'
 
-top_level_commands = [CMD_HELP, CMD_GUESS, CMD_LIST, CMD_QUIT]
+top_level_commands = [CMD_HELP, CMD_GUESS, CMD_LIST, CMD_QUIT, CMD_UNDO_GUESS]
 
 
 class GuessResults:
@@ -42,10 +43,25 @@ def main():
                 words = guess_results.words
                 for i, w in enumerate(words):
                     print(i + 1, w)
+
         if command == CMD_LIST:
             list_guesses(guesses)
+
+        if command == CMD_UNDO_GUESS:
+            if len(guesses) == 0:
+                print("There are no guesses to undo.")
+            else:
+                guesses.pop(-1)
+                if len(guesses) > 0:
+                    words = guesses[-1].words
+                    list_guesses(guesses)
+                else:
+                    words = secret_words
+                    print("There are currently no guesses.")
+
         if command == CMD_QUIT:
             break
+
         if command == CMD_HELP:
             print(f"This program assumes you are playing Wordle. You type in the")
             print(f"  guess you made, followed by the result.")
@@ -62,6 +78,8 @@ def main():
             print(f"  {CMD_GUESS} - Guess. Stop guessing by typing in 'q'.")
             print(f"  {CMD_LIST} - List. List the guesses so far.")
             print(f"  {CMD_QUIT} - Quit the program.")
+            print(f"  {CMD_UNDO_GUESS} - Undo the last guess.")
+
         command = input_command("Command: ")
     print('Goodbye')
 
