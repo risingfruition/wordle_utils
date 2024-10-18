@@ -20,14 +20,21 @@ def main():
     for i, w in enumerate(secret_words):
         print(i + 1, w)
 
+    guesses = []
     words = secret_words
     for count in range(6):
-        guess = input("Input guess : ")
-        result = input("Input result: ")
-        guess_results = GuessResults(guess, result, words)
+        guess_results = record_guess(words)
+        guesses.append(guess_results)
         words = guess_results.words
         for i, w in enumerate(words):
             print(i + 1, w)
+
+
+def record_guess(words):
+    guess = input("Input guess : ")
+    result = input("Input result: ")
+    guess_results = GuessResults(guess, result, words)
+    return guess_results
 
 
 if __name__ == "__main__":
