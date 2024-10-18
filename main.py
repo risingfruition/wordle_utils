@@ -2,7 +2,7 @@ from filter import filter_words
 from score import specify_score
 
 
-class Helper:
+class GuessResults:
     def __init__(self, guess, result, words):
         self.guess = guess
         self.score = specify_score(result)
@@ -24,7 +24,7 @@ def main():
     for count in range(6):
         guess = input("Input guess : ")
         result = input("Input result: ")
-        helper = Helper(guess, result, words)
+        helper = GuessResults(guess, result, words)
         words = helper.words
         for i, w in enumerate(words):
             print(i + 1, w)
