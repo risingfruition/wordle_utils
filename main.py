@@ -1,12 +1,21 @@
 from filter import filter_words
 from score import specify_score
 
+CMD_GUESS = 'g'
+CMD_HELP = 'h'
+CMD_LIST = 'l'
+CMD_QUIT = 'q'
+
+top_level_commands = [CMD_HELP, CMD_GUESS, CMD_LIST, CMD_QUIT]
+
 
 class GuessResults:
     def __init__(self, guess, result, words):
         self.guess = guess
+        self.result = result
         self.score = specify_score(result)
         self.words = filter_words(words, self.guess, self.score)
+        self.word_count = len(self.words)
 
 
 def main():
@@ -22,17 +31,88 @@ def main():
 
     guesses = []
     words = secret_words
-    for count in range(6):
-        guess_results = record_guess(words)
-        guesses.append(guess_results)
-        words = guess_results.words
-        for i, w in enumerate(words):
-            print(i + 1, w)
+    command = CMD_GUESS
+    while True:
+        if command == CMD_GUESS:
+            while True:
+                guess_results = record_guess(words)
+                if not guess_results:
+                    break
+                guesses.append(guess_results)
+                words = guess_results.words
+                for i, w in enumerate(words):
+                    print(i + 1, w)
+        if command == CMD_LIST:
+            list_guesses(guesses)
+        if command == CMD_QUIT:
+            break
+        if command == CMD_HELP:
+            print(f"This program assumes you are playing Wordle. You type in the")
+            print(f"  guess you made, followed by the result.")
+            print(f"Create a result string with:")
+            print(f"  'R' or 'r' for a character in the right position")
+            print(f"  'W' or 'w' for a character in the wrong position")
+            print(f"  any other character indicates the letter is not in the secret word.")
+            print(f"Example: If guess was 'STUFF' and in the result the 'S' was in the ")
+            print(f"  right position (green) and the 'U' was in the wrong position (yellow),")
+            print(f"  and the rest of the letters were not in the secret word, the")
+            print(f"  result string would be 'r-w--'.")
+            print(f"Commands:")
+            print(f"  {CMD_HELP} - Help. This text.")
+            print(f"  {CMD_GUESS} - Guess. Stop guessing by typing in 'q'.")
+            print(f"  {CMD_LIST} - List. List the guesses so far.")
+            print(f"  {CMD_QUIT} - Quit the program.")
+        command = input_command("Command: ")
+    print('Goodbye')
+
+
+def list_guesses(guesses):
+    if len(guesses) == 0:
+        print("No guesses yet.")
+    else:
+        for i, guess_result in enumerate(guesses):
+            n = i + 1
+            print(f"{n} ----------------------------------")
+            print(f"{n} guess : {guess_result.guess}")
+            print(f"{n} result: {guess_result.result}")
+            print(f"{n} count : {guess_result.word_count}")
+            if guess_result.word_count <= 10:
+                bunch = ""
+                for word in guess_result.words:
+                    bunch = bunch + word + " "
+                print(f"All words: {bunch}")
+            else:
+                print(f"Lots of words.")
+        print(f"------------------------------------")
+
+
+def input_command(prompt):
+    c = input(prompt)
+    while c not in top_level_commands:
+        print(f"Command must be one of: {top_level_commands}")
+        c = input(prompt)
+    return c
+
+
+def input_len_5(prompt):
+    s = input(prompt)
+    while len(s) != 5:
+        if s == "q":
+            return s
+        print("Input must be exactly 5 characters, or 'q'.")
+        s = input(prompt)
+    return s
 
 
 def record_guess(words):
-    guess = input("Input guess : ")
-    result = input("Input result: ")
+    guess = input_len_5("Input guess : ")
+    if guess == "q":
+        return None
+
+    result = input_len_5("Input result: ")
+    if result == "q":
+        return None
+
     guess_results = GuessResults(guess, result, words)
     return guess_results
 
