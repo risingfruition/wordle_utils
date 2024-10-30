@@ -3,11 +3,23 @@ from score import specify_score
 
 CMD_GUESS = 'g'
 CMD_HELP = 'h'
+CMD_HELP_Q = '?'
 CMD_LIST = 'l'
+CMD_PRINT = 'p'
 CMD_QUIT = 'q'
+CMD_RESET = 'r'
 CMD_UNDO_GUESS = 'u'
 
-top_level_commands = [CMD_HELP, CMD_GUESS, CMD_LIST, CMD_QUIT, CMD_UNDO_GUESS]
+top_level_commands = [
+    CMD_HELP,
+    CMD_HELP_Q,
+    CMD_GUESS,
+    CMD_LIST,
+    CMD_PRINT,
+    CMD_QUIT,
+    CMD_RESET,
+    CMD_UNDO_GUESS
+]
 
 
 class GuessResults:
@@ -84,10 +96,18 @@ def main():
                     words = guesses.words()
                     list_guesses(guesses)
 
+        if command == CMD_PRINT:
+            print_vert(words)
+
         if command == CMD_QUIT:
             break
 
-        if command == CMD_HELP:
+        if command == CMD_RESET:
+            guesses = GuessResultCollection()
+            words = secret_words
+            print_vert(words)
+
+        if command == CMD_HELP or command == CMD_HELP_Q:
             print(f"This program assumes you are playing Wordle. You type in the")
             print(f"  guess you made, followed by the result.")
             print(f"Create a result string with:")
@@ -99,10 +119,12 @@ def main():
             print(f"  and the rest of the letters were not in the secret word, the")
             print(f"  result string would be 'r-w--'.")
             print(f"Commands:")
-            print(f"  {CMD_HELP} - Help. This text.")
+            print(f"  {CMD_HELP} or {CMD_HELP_Q} - Help. This text.")
             print(f"  {CMD_GUESS} - Guess. Stop guessing by typing in 'q'.")
             print(f"  {CMD_LIST} - List. List the guesses so far.")
+            print(f"  {CMD_PRINT} - Print. Print the current words.")
             print(f"  {CMD_QUIT} - Quit the program.")
+            print(f"  {CMD_RESET} - Reset. Start over without exiting the program.")
             print(f"  {CMD_UNDO_GUESS} - Undo the last guess.")
 
         command = input_command("Command: ")
