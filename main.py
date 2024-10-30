@@ -54,8 +54,7 @@ def main():
             secret_words.append(word.strip())
             word = f.readline()
 
-    for i, w in enumerate(secret_words):
-        print(i + 1, w)
+    print_vert(secret_words)
 
     guesses = GuessResultCollection()
     words = secret_words
@@ -68,8 +67,7 @@ def main():
                     break
                 guesses.append(guess_results)
                 words = guess_results.words
-                for i, w in enumerate(words):
-                    print(i + 1, w)
+                print_vert(words)
 
         if command == CMD_LIST:
             list_guesses(guesses)
@@ -109,6 +107,11 @@ def main():
 
         command = input_command("Command: ")
     print('Goodbye')
+
+
+def print_vert(words):
+    for i, w in enumerate(words):
+        print(i + 1, w)
 
 
 def list_guesses(guesses):
