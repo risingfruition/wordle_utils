@@ -19,6 +19,33 @@ class GuessResults:
         self.word_count = len(self.words)
 
 
+class GuessResultCollection:
+    def __init__(self):
+        self.goober = []
+        self.guesses = self.goober
+
+    def __iter__(self):
+        return iter(self.guesses)
+
+    def append(self, guess_results: GuessResults) -> None:
+        self.guesses.append(guess_results)
+
+    def pop(self) -> None:
+        if not self.is_empty():
+            self.guesses.pop(-1)
+
+    def count(self) -> int:
+        return len(self.guesses)
+
+    def is_empty(self) -> bool:
+        return len(self.guesses) == 0
+
+    def words(self) -> list[str] | None:
+        if self.is_empty():
+            return None
+        return self.guesses[-1].words
+
+
 def main():
     secret_words = []
     with open("secret_words.csv", encoding="utf-8") as f:
@@ -30,7 +57,7 @@ def main():
     for i, w in enumerate(secret_words):
         print(i + 1, w)
 
-    guesses = []
+    guesses = GuessResultCollection()
     words = secret_words
     command = CMD_GUESS
     while True:
@@ -48,16 +75,16 @@ def main():
             list_guesses(guesses)
 
         if command == CMD_UNDO_GUESS:
-            if len(guesses) == 0:
+            if guesses.is_empty():
                 print("There are no guesses to undo.")
             else:
-                guesses.pop(-1)
-                if len(guesses) > 0:
-                    words = guesses[-1].words
-                    list_guesses(guesses)
-                else:
+                guesses.pop()
+                if guesses.is_empty():
                     words = secret_words
                     print("There are currently no guesses.")
+                else:
+                    words = guesses.words()
+                    list_guesses(guesses)
 
         if command == CMD_QUIT:
             break
@@ -85,7 +112,7 @@ def main():
 
 
 def list_guesses(guesses):
-    if len(guesses) == 0:
+    if guesses.is_empty():
         print("No guesses yet.")
     else:
         for i, guess_result in enumerate(guesses):
@@ -122,7 +149,7 @@ def input_len_5(prompt):
     return s
 
 
-def record_guess(words):
+def record_guess(words) -> GuessResults | None:
     guess = input_len_5("Input guess : ")
     if guess == "q":
         return None
