@@ -108,27 +108,31 @@ def main():
             print_vert(words)
 
         if command == CMD_HELP or command == CMD_HELP_Q:
-            print(f"This program assumes you are playing Wordle. You type in the")
-            print(f"  guess you made, followed by the result.")
-            print(f"Create a result string with:")
-            print(f"  'R' or 'r' for a character in the right position")
-            print(f"  'W' or 'w' for a character in the wrong position")
-            print(f"  any other character indicates the letter is not in the secret word.")
-            print(f"Example: If guess was 'STUFF' and in the result the 'S' was in the ")
-            print(f"  right position (green) and the 'U' was in the wrong position (yellow),")
-            print(f"  and the rest of the letters were not in the secret word, the")
-            print(f"  result string would be 'r-w--'.")
-            print(f"Commands:")
-            print(f"  {CMD_HELP} or {CMD_HELP_Q} - Help. This text.")
-            print(f"  {CMD_GUESS} - Guess. Stop guessing by typing in 'q'.")
-            print(f"  {CMD_LIST} - List. List the guesses so far.")
-            print(f"  {CMD_PRINT} - Print. Print the current words.")
-            print(f"  {CMD_QUIT} - Quit the program.")
-            print(f"  {CMD_RESET} - Reset. Start over without exiting the program.")
-            print(f"  {CMD_UNDO_GUESS} - Undo the last guess.")
+            print_help()
 
         command = input_command("Command: ")
     print('Goodbye')
+
+
+def print_help():
+    print(f"This program assumes you are playing Wordle. You type in the")
+    print(f"  guess you made, followed by the result.")
+    print(f"Create a result string with:")
+    print(f"  'R' or 'r' for a character in the right position")
+    print(f"  'W' or 'w' for a character in the wrong position")
+    print(f"  any other character indicates the letter is not in the secret word.")
+    print(f"Example: If guess was 'STUFF' and in the result the 'S' was in the ")
+    print(f"  right position (green) and the 'U' was in the wrong position (yellow),")
+    print(f"  and the rest of the letters were not in the secret word, the")
+    print(f"  result string would be 'r-w--'.")
+    print(f"Commands:")
+    print(f"  {CMD_HELP} or {CMD_HELP_Q} - Help. This text.")
+    print(f"  {CMD_GUESS} - Guess. Stop guessing by typing in 'q'.")
+    print(f"  {CMD_LIST} - List. List the guesses so far.")
+    print(f"  {CMD_PRINT} - Print. Print the current words.")
+    print(f"  {CMD_QUIT} - Quit the program.")
+    print(f"  {CMD_RESET} - Reset. Start over without exiting the program.")
+    print(f"  {CMD_UNDO_GUESS} - Undo the last guess.")
 
 
 def print_vert(words):
